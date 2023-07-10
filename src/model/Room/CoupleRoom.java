@@ -13,6 +13,6 @@ public class CoupleRoom extends Room {
     private static int i = 0;
 
     public CoupleRoom() {
-        super(idRoom[i++], "Couple Room", 500000, false);
+        super(idRoom[i++], "Couple Room", 500000, true);
     }
 }
