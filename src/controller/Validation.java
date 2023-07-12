@@ -18,7 +18,6 @@ public class Validation {
     private static final Scanner sc = new Scanner(System.in);
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
-
     //-----------------------------------------------------------------------
     public static String getString(String pr, String pattern) {
         String str;
@@ -72,6 +71,24 @@ public class Validation {
             }
         } while (!validDay(dateStr));
         return dateStr;
+    }
+    //---------------------------------------------------------
+    public static int getDayWork(String pr){
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            try {
+                System.out.println(pr);
+                String input = sc.nextLine();
+                int dayWork = Integer.parseInt(input);
+                if (dayWork <= 31 && dayWork > 0) {
+                    return dayWork;
+                } else {
+                    System.out.println("Day work must be bigger than 0 and less than - equal to 31 days ");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("[Error] Invalid input. Please enter again!!");
+            }
+        }
     }
 }
 
