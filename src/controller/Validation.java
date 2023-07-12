@@ -14,6 +14,7 @@ public class Validation {
     public static final String REGEX_EMAIL = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]*$";
     public static final String DATE_FORMAT= "dd/MM/yyyy*";
     public static final String REGEX_ROOM_ID = "^\\d{3}*$";
+    public static final String REGEX_ROLE = "staff|manager|Staff|Manager+";
     private static final Scanner sc = new Scanner(System.in);
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
