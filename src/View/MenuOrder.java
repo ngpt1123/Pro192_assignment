@@ -106,7 +106,7 @@ public class MenuOrder extends Menu<String>{
         if (orderManagement.deleteOrder(id)) 
             System.out.println("Order delected successfully!!");
         else 
-            System.out.println("Failed in deleting order!!!");
+            System.out.println("Customer " + id +" doesn't exitst!");
     }
     //--------------------------------------------------------------------------
     public void sortOrderByDayRent() {
