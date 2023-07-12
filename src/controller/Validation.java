@@ -90,5 +90,24 @@ public class Validation {
             }
         }
     }
+    //--------------------------------------------------------------------------
+    public static float getFloat(String pr){
+        Scanner sc = new Scanner(System.in);
+        float result = 0;
+        boolean validInput = false;
+        while(!validInput){
+             try{
+             System.out.println(pr);
+             String input = sc.nextLine();  
+             result = Float.parseFloat(input);
+             validInput = true;
+             }
+             catch(NumberFormatException e){
+                 System.out.println("[Error] Invalid input. Please enter again!!");
+             }
+        }
+        return result;
+    }
+    //--------------------------------------------------------------------------
 }
 
