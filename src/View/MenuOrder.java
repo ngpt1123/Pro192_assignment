@@ -56,7 +56,7 @@ public class MenuOrder extends Menu<String>{
     public void displayAllOrder() {
         if(!orderManagement.getCustomerOrdered().isEmpty()) {
                 System.out.println("----------------------------------------------------------------------------------------------");
-                System.out.println("|ID \t Name \t\t Phone \t\t Gender \t Day of Birth \t Email \t Room ID \t Room Type \t Room Price|");
+                System.out.println("|ID \t Name \t\t Phone \t\t Gender \t Day of Birth \t\t Email \t\t Room ID \t Room Type \t Room Price|");
                 orderManagement.displayAllOrder();
                 System.out.println("----------------------------------------------------------------------------------------------");
         } else {
@@ -106,7 +106,7 @@ public class MenuOrder extends Menu<String>{
         if (orderManagement.deleteOrder(id)) 
             System.out.println("Order delected successfully!!");
         else 
-            System.out.println("Failed in deleting order!!!");
+            System.out.println("Customer " + id +" doesn't exitst!");
     }
     //--------------------------------------------------------------------------
     public void sortOrderByDayRent() {

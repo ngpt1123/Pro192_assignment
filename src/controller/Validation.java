@@ -8,15 +8,15 @@ public class Validation {
     // --------------------------------------------------------------------
     public static final String REGEX_ID = "^KH\\d{4}+$";
     public static final String REGEX_NAME = "^[a-zA-Z ]*$";
-    public static final String REGEX_PHONE = "^0\\d{9}$";
+    public static final String REGEX_PHONE = "\\d*";
     public static final String REGEX_ADDRESS = "^[A-Za-z0-9 ]*$";
     public static final String REGEX_GENDER = "true|false|TRUE|FALSE+";
     public static final String REGEX_EMAIL = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]*$";
     public static final String DATE_FORMAT= "dd/MM/yyyy*";
-    public static final String REGEX_ROOM_ID = "^\\d{3}*$";
+    public static final String REGEX_ROOM_ID = "\\d*";
+    public static final String REGEX_ROLE = "staff|manager|Staff|Manager+";
     private static final Scanner sc = new Scanner(System.in);
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
-
 
     //-----------------------------------------------------------------------
     public static String getString(String pr, String pattern) {
@@ -72,5 +72,42 @@ public class Validation {
         } while (!validDay(dateStr));
         return dateStr;
     }
+    //---------------------------------------------------------
+    public static int getDayWork(String pr){
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            try {
+                System.out.println(pr);
+                String input = sc.nextLine();
+                int dayWork = Integer.parseInt(input);
+                if (dayWork <= 31 && dayWork > 0) {
+                    return dayWork;
+                } else {
+                    System.out.println("Day work must be bigger than 0 and less than - equal to 31 days ");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("[Error] Invalid input. Please enter again!!");
+            }
+        }
+    }
+    //--------------------------------------------------------------------------
+    public static float getFloat(String pr){
+        Scanner sc = new Scanner(System.in);
+        float result = 0;
+        boolean validInput = false;
+        while(!validInput){
+             try{
+             System.out.println(pr);
+             String input = sc.nextLine();  
+             result = Float.parseFloat(input);
+             validInput = true;
+             }
+             catch(NumberFormatException e){
+                 System.out.println("[Error] Invalid input. Please enter again!!");
+             }
+        }
+        return result;
+    }
+    //--------------------------------------------------------------------------
 }
 

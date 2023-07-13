@@ -131,8 +131,9 @@ public boolean updateCustomer() {
     String roomID = Validation.getString("Input ID'S Room: ", Validation.REGEX_ROOM_ID);
 
     Room room = roomManagement.searchRoomById(roomID);
+    room.setIsRented(true);
     
-    if (updateCustomer(customer, roomID, name, phone, dateOfBirthStr, address, genderStr, email, room)) {
+    if (updateCustomer(customer, id, name, phone, dateOfBirthStr, address, genderStr, email, room)) {
         System.out.println("Customer " + id + " has been rented successfully.");
         return true;
     }
@@ -149,21 +150,16 @@ public boolean updateCustomer() {
 // --------------------------------------------------------
 
     public boolean deleteOrder(String id) {
-        Customer customerToDelete = new Customer();
-        for (Customer customer : customerOrder) {
-            if (customer.getId().equalsIgnoreCase(id)) {
-                customerToDelete = customer;
-                break;
-            }
-        }
-        if (customerToDelete == null)
-            return false;
+        Customer customer = searchCustomerId(id);
+        if(customer == null)
+                return false;
+
         String confirmation = "";
         do {
             confirmation = Validation.getString("Are you sure you want to delete the customer? (Yes/No): ");
 
             if (confirmation.equalsIgnoreCase("Yes")) {
-                customerOrder.remove(customerToDelete);
+                customerOrder.remove(customer);
                 return true;
             } else if (confirmation.equalsIgnoreCase("No")) {
                 System.out.println("Customer not deleted.");
