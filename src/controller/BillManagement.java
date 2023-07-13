@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 import model.Bill;
 import model.Customer;
@@ -19,27 +20,14 @@ public class BillManagement {
         return bills;
     }
 
-    public Bill getBillById(int id){
+    public ArrayList<Bill> search (Predicate<Bill>predicate){
+        ArrayList<Bill> billList=new ArrayList<>();
         for (Bill bill : bills) {
-            if(bill.getId()==id) return bill;
+            if(predicate.test(bill)){
+                billList.add(bill);
+            }
         }
-        return null;
-    }
-
-    public ArrayList<Bill> getBillByCustomerId(String id){
-        ArrayList<Bill> result=new ArrayList<>();
-        for (Bill bill : bills) {
-            if(bill.getCustomer().getId().equalsIgnoreCase(id)) result.add(bill);
-        }
-        return result;
-    }
-
-    public ArrayList<Bill> getBillByCustomerName(String name){
-        ArrayList<Bill> result=new ArrayList<>();
-        for (Bill bill : bills) {
-            if(bill.getCustomer().getName().equalsIgnoreCase(name)) result.add(bill);
-        }
-        return result;
+        return billList;
     }
 
     public void deleteBillById(int id){
