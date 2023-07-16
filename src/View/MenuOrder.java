@@ -1,14 +1,15 @@
-package View;
+package view;
 
+import view.Menu;
+import view.Validation;
 import controller.OrderManagement;
-import controller.Validation;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import model.Customer;
 
-public class MenuOrder extends Menu<String>{
+public class MenuOrder extends Menu <String>{
     static String[] menu = {"Add Room Order","Display All Room Order","Update Order's Customer.",
                             "Search Room Order","Release Room",
                             "Sort room order by day rented","Exit."};

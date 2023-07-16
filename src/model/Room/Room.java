@@ -1,21 +1,21 @@
-package model.Room;
+package model.room;
 
 public class Room {
 
     private String roomID;
     private String roomType;
     private float price;
-    private boolean isRented = false;
-    public Object getRoomID;
+    private boolean status;
+
 
     public Room() {
     }
 
-    public Room(String roomID, String roomType, float price, boolean isRented) {
+    public Room(String roomID, String roomType, float price, boolean status) {
         this.roomID = roomID;
         this.roomType = roomType;
         this.price = price;
-        this.isRented = isRented;
+        this.status = status;
     }
 
     public String getRoomID() {
@@ -42,18 +42,22 @@ public class Room {
         this.price = price;
     }
 
-    public boolean isIsRented() {
-        return isRented;
+    public boolean getStatus() {
+        return status;
     }
 
-    public void setIsRented(boolean isRented) {
-        this.isRented = isRented;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     @Override
     public String toString() {
-        String status = isRented?"Occupied":"Vacant  ";
-        return "|" + roomID + "\t" + roomType + "\t" + price + "\t" + status + "|";
+        String status = this.status?"Occupied":"Vacant";
+        return String.format("%-8s %-16s %-12.0f %-12s", roomID, roomType, price, status);
     }
+
+
+
+
 
 }

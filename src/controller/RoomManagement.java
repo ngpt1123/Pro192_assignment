@@ -1,99 +1,105 @@
 package controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Scanner;
-import model.Room.CoupleRoom;
-import model.Room.Room;
-import model.Room.SingleRoom;
+import java.util.function.Predicate;
+import model.room.CoupleRoom;
+import model.room.Room;
+import model.room.SingleRoom;
 
 public class RoomManagement {
-    public static ArrayList<Room> rooms = new ArrayList<>();;
-    protected Scanner sc = new Scanner(System.in);;
+    private final String[] ID_SINGLE_ROOM = {"101", "102", "103", "104", "105", "201", "202", "203", "204", "205"};
+    private final String[] ID_COUPLE_ROOM = {"301", "302", "303", "304", "305", "401", "402", "403", "404", "405"};
 
+    private final ArrayList<Room> rooms;
     public RoomManagement() {
+        rooms = new ArrayList<>();
         createRoom();
-    };
-
-    public void createRoom() {
-        for (int i = 0; i < 10; i++) {
-            Room singleRoom = new SingleRoom();
-            Room coupleRoom = new CoupleRoom();
-            rooms.add(singleRoom);
-            rooms.add(coupleRoom);
-        }
-        sortRoomByID();
     }
-
-    public ArrayList<Room> getRentedRoom() {
-        ArrayList<Room> rs = new ArrayList<>();
-        for (Room room : rooms) {
-            if (room.isIsRented()) {
-                rs.add(room);
-            }
-        }
-        return rs;
+//    ------------------------------------------------------------------------------
+    public ArrayList<Room> getListRoom() {
+        return rooms;
     }
-
-    public void display() {
+//    ------------------------------------------------------------------------------
+    public void addRoom(Room room) {
+        rooms.add(room);
+    }
+//    ------------------------------------------------------------------------------
+    public final void createRoom() {
+        for (String idSingleRoom : ID_SINGLE_ROOM) {
+            Room singleRoom = new SingleRoom(idSingleRoom);
+            addRoom(singleRoom);
+        }
+        for (String idCoupleRoom : ID_COUPLE_ROOM) {
+            Room coupleRoom = new CoupleRoom(idCoupleRoom);
+            addRoom(coupleRoom);
+        }
+    }
+//    ------------------------------------------------------------------------------
+    public void displayAllRoom() {
         rooms.forEach(p -> System.out.println(p));
     }
-
-    public Room rentRoomByType(String choice) {
+//    ------------------------------------------------------------------------------
+    public void displayRoom(ArrayList<Room> listRoom) {
+        listRoom.forEach(p -> System.out.println(p));
+    }
+//    ------------------------------------------------------------------------------
+    public void displayRentedRoom() {
+        ArrayList<Room> rentedRooms = new ArrayList<>();
+        rentedRooms = searchRoom(p -> p.getStatus());
+        rentedRooms.forEach(p -> System.out.println(p));
+    }
+//    ------------------------------------------------------------------------------
+    public boolean isDupplication(String id) {
+        return !searchRoom(p -> p.getRoomID().equals(id)).isEmpty();
+    }
+//    ------------------------------------------------------------------------------
+    public ArrayList<Room> searchRoom(Predicate<Room> p) {
+        ArrayList<Room> roomSearch = new ArrayList<>();
         for(Room room: rooms) {
-            if(!room.isIsRented() && choice.equals("1") && room.getRoomType().equals("Single Room")){
-                room.setIsRented(true);
-                return room;
-            } else if(!room.isIsRented() && choice.equals("2") && room.getRoomType().equals("Couple Room")){
-                room.setIsRented(true);
-                return room;
-            }
+            if(p.test(room)) roomSearch.add(room);
         }
-        return null;
+        return roomSearch;
     }
-    
-    public Room rentRoomById(String id) {
-        for(Room room: rooms) {
-            if(!room.isIsRented() && room.getRoomID().equalsIgnoreCase(id)){
-                room.setIsRented(true);
-                return room;
-            } else if(!room.isIsRented() && room.getRoomID().equalsIgnoreCase(id)){
-                room.setIsRented(true);
-                return room;
-            }
+//    ------------------------------------------------------------------------------
+    public boolean updateRoom(Room room, String roomId, String roomType, float price) {
+        boolean updated = false;
+        if(!roomId.trim().isEmpty()) {
+            room.setRoomID(roomId);
+            updated = true;
         }
-        return null;
+        if(!roomType.trim().isEmpty()) {
+            room.setRoomType(roomType);
+            updated = true;
+        }
+        if(price>0) {
+            room.setPrice(price);
+            updated = true;
+        }
+        return updated;
     }
-
-    public boolean updateRoomPrice(String id, float price) {
+//    ------------------------------------------------------------------------------
+    public boolean releaseRoom(String roomID, String roomType) {
+        int cnt=0;
         for (Room room : rooms) {
-            if (room.getRoomID().equalsIgnoreCase(id)) {
-                room.setPrice(price);
-                return true;
+            if ((roomID != null && room.getRoomID().equalsIgnoreCase(roomID)) ||
+                (roomType != null && room.getRoomType().equalsIgnoreCase(roomType))) {
+                    if(room.getStatus()) {
+                        room.setStatus(false);
+                        cnt++;
+                    }
             }
         }
-        return false;
+        return cnt>0;
     }
-
-    public Room searchRoomById(String id) {
-        return rooms.stream()
-                .filter(p -> p.getRoomID().equals(id))
-                .findFirst().orElse(null);
-    }
-
-    public boolean deleteRoomStatus(String id) {
+    public boolean releaseRoom() {
+        int cnt=0;
         for (Room room : rooms) {
-            if (room.getRoomID.equals(id)) {
-                room.setIsRented(false);
-                return true;
+            if(room.getStatus()) {
+                room.setStatus(false);
+                cnt++;
             }
         }
-        return false;
+        return cnt>0;
     }
-
-    public void sortRoomByID() {
-        Collections.sort(rooms, Comparator.comparing(Room::getRoomID));
-    }
-
+//    ------------------------------------------------------------------------------
 }

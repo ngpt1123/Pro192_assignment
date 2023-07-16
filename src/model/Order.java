@@ -1,6 +1,6 @@
 package model;
 
-import model.Room.Room;
+import model.room.Room;
 
 public class Order {
     private Customer customer;

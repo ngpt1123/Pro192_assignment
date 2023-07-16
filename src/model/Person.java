@@ -1,14 +1,16 @@
 package model;
 
+import java.time.LocalDate;
+
 public class Person {
  
     private String id,name,phone,address,email;
     private boolean gender;
-    private String dateOfBirth;
+    private LocalDate dateOfBirth;
     
     public Person(){}
     
-    public Person(String id, String name, String phone, String address, boolean gender,String dateOfBirth,String email) {
+    public Person(String id, String name, String phone, String address, boolean gender,LocalDate dateOfBirth,String email) {
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -28,7 +30,7 @@ public class Person {
 
 
     public String getName() {
-        return name;
+        return setFormName(name);
     }
 
 
@@ -36,6 +38,17 @@ public class Person {
         this.name = name;
     }
 
+    public static String setFormName(String name) {
+        String[] word = name.split("\\s+");
+        for(int i=0; i<word.length; i++) {
+            word[i] = word[i].substring(0, 1).toUpperCase() + word[i].substring(1).toLowerCase();
+        }
+        String result = "";
+        for(int i=0; i<word.length; i++) {
+            result += (word[i] + " ");
+        }
+        return result.trim();
+    }
 
     public String getPhone() {
         return phone;
@@ -76,18 +89,18 @@ public class Person {
     }
 
 
-    public String getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
     @Override
     public String toString() {
-    String genderString = gender ? "male" : "female";
-    return "|" + id + "\t" + name + "\t" + phone + "\t" + phone + "|" + address + "\t" + genderString + "\t" + dateOfBirth + "\t" + email + "|";
+        String genderString = this.gender ? "male" : "female";
+        return String.format("%-8s %-16s %-12s %-16s %-8s %-12s %-18s" , getId(), getName(), getPhone(), getAddress(), genderString, getDateOfBirth(), getEmail());
     }
 }

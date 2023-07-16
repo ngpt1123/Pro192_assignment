@@ -5,7 +5,7 @@ import java.util.function.Predicate;
 
 import model.Bill;
 import model.Customer;
-import model.Room.Room;
+import model.room.Room;
 
 public class BillManagement {
     ArrayList<Bill> bills=new ArrayList<>();

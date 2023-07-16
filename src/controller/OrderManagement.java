@@ -1,5 +1,6 @@
 package controller;
 
+import view.Validation;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,10 +11,10 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import model.Customer;
-import model.Room.Room;
+import model.Order;
 
 public class OrderManagement {
-    private ArrayList<Customer> customerOrder = new ArrayList<>();
+    private ArrayList<Order> customerOrder = new ArrayList<>();
     private Scanner sc = new Scanner(System.in);
     private RoomManagement roomManagement = new RoomManagement();
     // -------------------------------------------------
@@ -22,13 +23,13 @@ public class OrderManagement {
     }
 
 // -----------------------------------------------------------
-    public Customer OrderRoom() {
+    public Order OrderRoom() {
             String id = Validation.getString("Enter customer's id: ", Validation.REGEX_ID);
             String name = Validation.getString("Enter customer's name: ", Validation.REGEX_NAME);
             String phone = Validation.getString("Enter customer's phone:", Validation.REGEX_PHONE);
             String genderStr = Validation.getString("Enter customer's gender (true = male;false = female):", Validation.REGEX_GENDER);
             boolean gender = Boolean.parseBoolean(genderStr);
-            String dateOfBirth = Validation.getDate("Enter customer's date of birth: ");
+            LocalDate dateOfBirth = Validation.getDate("Enter customer's date of birth: ");
             String email = Validation.getString("Enter customer's email: ", Validation.REGEX_EMAIL);
 
             System.out.println("1. Single Room.");
@@ -38,9 +39,10 @@ public class OrderManagement {
             Room room = roomManagement.rentRoomByType(choice);
 
             int dayRent = Integer.parseInt(Validation.getString("Enter number of day rent: ", "^[0-9]+$"));
-            Customer customer = new Customer(id, name, phone, genderStr, gender, dateOfBirth, email, room, dayRent);
-            customerOrder.add(customer);
-            return customer;
+            Customer customer = new Customer(id, name, phone, genderStr, gender, dateOfBirth, email, dayRent);
+            Order order = new Order(customer, room);
+            customerOrder.add(order);
+            return order;
 
             // System.out.println("[ERROR], Try again please.");
             // TODO: handle exception
@@ -49,25 +51,25 @@ public class OrderManagement {
 
 // ----------------------------------------------------------
     public boolean displayAllOrder() {
-        for(Customer customer : customerOrder) {
-            if(customer.getRoom().isIsRented()) {
-                System.out.println(customer);
+        for(Order order : customerOrder) {
+            if(order.getRoom().isIsRented()) {
+                System.out.println(order);
                 return true;
             }
         }
         return false;
     }
 
-    public List<Customer> getCustomerOrdered() {
+    public List<Order> getCustomerOrdered() {
         return customerOrder.stream()
                         .filter(p -> p.getRoom().isIsRented())
                         .collect(Collectors.toList());
     }
 // ---------------------------------------------------------
 
-    public ArrayList<Customer> search(Predicate<Customer> p) {
-        ArrayList<Customer> rs = new ArrayList<>();
-        for (Customer s : customerOrder) {
+    public ArrayList<Order> search(Predicate<Order> p) {
+        ArrayList<Order> rs = new ArrayList<>();
+        for (Order s : customerOrder) {
             if (p.test(s)) {
                 rs.add(s);
             }
@@ -75,7 +77,7 @@ public class OrderManagement {
         return rs;
     }
 // -------------------------------------------------------
-    public boolean updateCustomer(Customer customer, String id, String name, String phone, String dateOfBirth, String address, String gender, String email, Room room) {
+    public boolean updateCustomer(Customer customer, String id, String name, String phone, LocalDate dateOfBirth, String address, String gender, String email, Room room) {
         boolean updated = false;
     
         if (id != null) {
@@ -124,7 +126,7 @@ public boolean updateCustomer() {
     
     String name = Validation.getString("Input name's customer: ",Validation.REGEX_NAME);
     String phone = Validation.getString("Input phone's customer: ", Validation.REGEX_PHONE);
-    String dateOfBirthStr = Validation.getDate("Input date of birth(dd/MM/yyyy): ");
+    LocalDate dateOfBirth = Validation.getDate("Input date of birth(dd/MM/yyyy): ");
     String address = Validation.getString("Input address: ",Validation.REGEX_ADDRESS);
     String genderStr = Validation.getString("Input gender((true = male;false = female)",Validation.REGEX_GENDER);
     String email = Validation.getString("Input email: ", Validation.REGEX_EMAIL);
@@ -133,7 +135,7 @@ public boolean updateCustomer() {
     Room room = roomManagement.searchRoomById(roomID);
     room.setIsRented(true);
     
-    if (updateCustomer(customer, id, name, phone, dateOfBirthStr, address, genderStr, email, room)) {
+    if (updateCustomer(customer, id, name, phone, LocalDate dateOfBirth, address, genderStr, email, room)) {
         System.out.println("Customer " + id + " has been rented successfully.");
         return true;
     }
@@ -173,7 +175,7 @@ public boolean updateCustomer() {
 
 // -----------------------------------------------------------
     public void sortOrder() {
-        Collections.sort(customerOrder, Comparator.comparingInt(Customer::getDayRent));
+        Collections.sort(customerOrder, Comparator.comparingInt(Order::getCustomer().getdayRent()));
     }
 // ----------------------------------------------------------------
 }

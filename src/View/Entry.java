@@ -1,9 +1,9 @@
-package View;
+package view;
 
 public class Entry {
     public static void main(String[] args) {
-        // MenuRoom menuRoom = new MenuRoom();
-        // menuRoom.run();
+//         MenuRoom menuRoom = new MenuRoom();
+//         menuRoom.run();
 
         MenuOrder menuOrder = new MenuOrder();
         menuOrder.run();
