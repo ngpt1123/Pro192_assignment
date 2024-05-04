@@ -1,4 +1,4 @@
-package View;
+package view;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,8 +16,10 @@ public abstract class Menu<T> {
     }
 //    ------------------------------------------------------------------------------------
     public void display() {
-        System.out.println(title);
-        System.out.println("---------------------------------------");
+        System.out.println("\n");
+        System.out.println("=======================================");
+        System.out.println("\t" + title + "\t");
+        System.out.println("=======================================");
         for(int i=0; i<listOptions.size(); i++) {
             System.out.println((i+1) + "." + listOptions.get(i));
         }
@@ -30,14 +32,14 @@ public abstract class Menu<T> {
         System.out.print("Enter selection: ");
         return sc.nextLine();
     }
-    
-    public abstract void excute(String n);
+//    ------------------------------------------------------------------------------------    
+    public abstract void execute(String selected);
 //    ------------------------------------------------------------------------------------
     public void run() {
         while(true) {
             String selected = getSelected();
-            if(selected.equals("0")) return;
-            excute(selected);
+            execute(selected);
+            if(selected.equals(Integer.toString(listOptions.size()))) return;
         }
     }
 
